@@ -47,19 +47,13 @@ docker run --rm --name mock-proxy -p 3000:3000 mock-server-proxy
 
 ## 🌐 Exponer públicamente con LocalTunnel
 
-En otra terminal:
+Al iniciar el mock, se levanta automáticamente un túnel público a través de [LocalTunnel](https://theboroer.github.io/localtunnel-www/).  
+No es necesario ejecutar nada extra — el túnel se genera internamente desde el código.
 
-```bash
-npx localtunnel --port 3000 --subdomain=chris-endpoint-qa
-```
-
-Esto genera una URL pública como:
-
-```
+### URL pública por defecto:
 https://chris-endpoint-qa.loca.lt
-```
 
----
+> Puedes cambiar el subdominio o desactivar el túnel desde el código si lo deseas.
 
 ## 🔧 Endpoints útiles
 
