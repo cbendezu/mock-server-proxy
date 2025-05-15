@@ -4,7 +4,7 @@ Mock server proxy en Node.js para simular respuestas de endpoints reales, con so
 - Cambios dinámicos de status code (`200`, `503`, etc.)
 - Simulación de delay en las respuestas
 - Proxy inteligente con reglas por ruta
-- Exposición pública con LocalTunnel
+- Exposición pública automática vía LocalTunnel
 
 ---
 
@@ -18,7 +18,6 @@ Este servidor proxy permite redirigir peticiones a endpoints reales, pero tambi�
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - Node.js (solo si deseas correrlo fuera de Docker)
-- npx (para usar LocalTunnel)
 
 ---
 
@@ -43,6 +42,8 @@ docker build -t mock-server-proxy .
 docker run --rm --name mock-proxy -p 3000:3000 mock-server-proxy
 ```
 
+Esto iniciará el mock-server y levantará automáticamente un túnel público.
+
 ---
 
 ## 🌐 Exponer públicamente con LocalTunnel
@@ -51,10 +52,13 @@ Al iniciar el mock, se levanta automáticamente un túnel público a través de 
 No es necesario ejecutar nada extra — el túnel se genera internamente desde el código.
 
 ### URL pública por defecto:
+```
 https://chris-endpoint-qa.loca.lt
+```
 
 > Puedes cambiar el subdominio o desactivar el túnel desde el código si lo deseas.
 
+---
 ## 🔧 Endpoints útiles
 
 ### ▶️ Cambiar status simulado
@@ -95,7 +99,6 @@ El servidor simula errores si el método y la ruta coinciden con estas:
 
 ## 💡 Tips
 
-- Puedes reiniciar con diferentes configuraciones sin detener el contenedor.
 - Usa `--rm` al correr Docker para evitar acumulación de contenedores.
 - Si el puerto 3000 está ocupado, puedes cambiarlo así:
   ```bash
