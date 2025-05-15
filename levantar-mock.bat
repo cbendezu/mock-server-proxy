@@ -1,0 +1,6 @@
+@echo off
+echo 🔧 Construyendo imagen Docker (si no existe)...
+docker image inspect mock-server-proxy >nul 2>&1 || docker build -t mock-server-proxy .
+
+echo 🚀 Iniciando mock-server con Docker...
+docker run --rm --name mock-proxy -p 3000:3000 mock-server-proxy
