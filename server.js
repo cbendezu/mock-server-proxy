@@ -55,6 +55,61 @@ app.post('/set-delay/:ms', (req, res) => {
     res.status(400).json({ error: 'Delay inválido (usa milisegundos entre 0 y 600000)' });
 });
 
+
+// 🔹 Agregar una nueva regla de error
+app.post('/set-error-route', (req, res) => {
+  const { method, path, codes } = req.body;
+
+  if (
+    !method || typeof method !== 'string' ||
+    !path || typeof path !== 'string' ||
+    !Array.isArray(codes) || codes.some(code => !codigosError.includes(code))
+  ) {
+    return res.status(400).json({
+      error: 'Formato inválido. Se requiere: { method, path (regex string), codes[] válidos }'
+    });
+  }
+
+  try {
+    const regex = new RegExp(path);
+    rutasConError.push({
+      method: method.toUpperCase(),
+      pattern: regex,
+      codes
+    });
+
+    console.log(`✅ Regla agregada: [${method.toUpperCase()} ${path}]`);
+    res.json({ mensaje: 'Regla agregada correctamente', total: rutasConError.length });
+  } catch (e) {
+    res.status(400).json({ error: 'Expresión regular inválida' });
+  }
+});
+
+// 🔹 Listar todas las reglas
+app.get('/error-routes', (req, res) => {
+  res.json(
+    rutasConError.map((rule, index) => ({
+      id: index,
+      method: rule.method,
+      pattern: rule.pattern.toString(),
+      codes: rule.codes
+    }))
+  );
+});
+
+// 🔹 Eliminar una regla por ID
+app.delete('/error-route/:id', (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id) || id < 0 || id >= rutasConError.length) {
+    return res.status(400).json({ error: 'ID inválido' });
+  }
+
+  const removed = rutasConError.splice(id, 1)[0];
+  console.log(`🗑️ Regla eliminada: [${removed.method} ${removed.pattern}]`);
+  res.json({ mensaje: 'Regla eliminada correctamente', removed });
+});
+
+
 app.all('*', async (req, res) => {
 
     const start = performance.now(); 
