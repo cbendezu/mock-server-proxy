@@ -109,4 +109,4 @@ El servidor simula errores si el método y la ruta coinciden con estas:
 
 ## 🧠 Autor
 
-Desarrollado por **cbendezu** – [github.com/cbendezu](https://github.com/cbendezu) + 🤖
+**cbendezu** – [github.com/cbendezu](https://github.com/cbendezu) + 🤖
